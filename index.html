@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://unpkg.com/bsv@0.26.4/bsv.min.js"></script>
+  </head>
+  <body>
+    <script>
+      var message = "";
+    </script>
+    <h1>Hello Meta Net - Publisher</h1>
+    <p>Please write something to publish on the blockchain FOREVER !</p>
+    <textarea 
+      id="myTextarea"
+      style="width:350px; height:200px;"
+      onchange="changeMessage()"></textarea>
+    <br />
+    <div id="my-money-button"></div>
+    <script src="https://www.moneybutton.com/moneybutton.js"></script>
+    <script>
+      function changeMessage(){
+        message = document.getElementById("myTextarea").value;
+        message = bsv.Script.buildDataOut(['HELLOMETANET', "" + message]).toASM();
+        const div = document.getElementById('my-money-button');
+        moneyButton.render(div, {
+          outputs: [{
+            type: 'SCRIPT',
+            script: message,
+            amount: '0',
+            currency: 'BSV'
+          }],
+          label: "Publish",
+          clientIdentifier: "b2a2ae826e1846c286b6876027a7be5a",
+          buttonId: "234325",
+          onPayment: function (arg) { console.log('onPayment', arg) },
+          onError: function (arg) { console.log('onError', arg) }
+        })
+      }
+    </script>
+  </body>
+</html>
